@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FontiFragment">
+        <ListView
+        android:id="@+id/listafontiinfragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </LinearLayout>
+    <Button
+    android:id="@+id/aggiungiFonte"
+    style="@style/bottoni"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/aggiungi"
+    android:layout_gravity="bottom" />
+</FrameLayout>
+
+<!--TextView
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/text_fonti"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginStart="0dp"
+android:layout_marginTop="0dp"
+android:text="@string/elenco_fonti"
+android:textAlignment="center"
+android:textSize="30sp"
+android:background="@color/verdechiarissimo"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toTopOf="parent" /-->
+
+
+<!--LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp">
+        <LinearLayout
+            android:layout_column="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Titolo"
+                android:textSize="18dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Descrizione della fonte"
+                android:textSize="14dp"/>
+        </LinearLayout>
+        <Button
+            android:layout_column="2"
+            android:backgroundTint="@color/rossoelimina"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center"
+            android:elevation="50dp"
+            android:text="⨯"/>
+    </GridLayout>
+</LinearLayout-->

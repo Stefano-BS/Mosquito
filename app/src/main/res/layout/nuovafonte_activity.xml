@@ -1,0 +1,75 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/link_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/link_sito_internet"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <EditText
+                android:id="@+id/linkNuovaFonte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textUri"
+                android:singleLine="true" />
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/aggiungiFonte"
+        style="@style/bottoni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/aggiungi"
+        android:layout_gravity="bottom" />
+</FrameLayout>
+
+<!--PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <PreferenceCategory app:title="@string/posizione_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditTextPreference app:title="@string/link_sito_internet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ListPreference
+            android:entries="@array/reply_entries"
+            android:entryValues="@array/reply_values"
+            android:key="reply"
+            app:title="@string/reply_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/sync_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <SwitchPreferenceCompat app:title="@string/sync_title"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+        <SwitchPreferenceCompat
+            android:key="attachment"
+            android:summaryOff="@string/attachment_summary_off"
+            android:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </PreferenceCategory>
+</PreferenceScreen-->

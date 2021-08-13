@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Mosquito</string>
+
+    <string name="nav_header_title">Mosquito</string>
+    <string name="nav_header_subtitle">bzzz</string>
+
+    <string name="notizie">Notizie</string>
+    <string name="fonti">Fonti</string>
+    <string name="impostazioni">Impostazioni</string>
+    <string name="elenco_fonti">Elenco Fonti</string>
+    <string name="aggiungi">Aggiungi</string>
+
+    <!-- Nuova fonte -->
+    <string name="title_activity_nuova_fonte">Aggiungi Fonte</string>
+    <string name="link_sito_internet">Link sito internet</string>
+</resources>

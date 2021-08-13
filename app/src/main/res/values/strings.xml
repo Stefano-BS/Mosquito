@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mosquito</string>
+
+    <string name="nav_header_title">Mosquito</string>
+    <string name="nav_header_subtitle">bzzz</string>
+
+    <string name="notizie">News</string>
+    <string name="fonti">Sources</string>
+    <string name="impostazioni">Settings</string>
+    <string name="elenco_fonti">Sources List</string>
+    <string name="aggiungi">Add</string>
+
+    <!-- Nuova fonte -->
+    <string name="title_activity_nuova_fonte">Add Soruce</string>
+    <string name="link_sito_internet">Website Link</string>
+</resources>

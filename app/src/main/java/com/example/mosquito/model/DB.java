@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class DB extends SQLiteOpenHelper {
     static final String DATABASE_NAME = "Mosquito";
-    static final int DATABASE_VERSION = 1;
+    static final int DATABASE_VERSION = 5;
 
     public DB(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,7 +27,8 @@ public class DB extends SQLiteOpenHelper {
                 + TFonti.COLUMN_NOME + " varchar not null, " + TFonti.COLUMN_WEB + "  varchar not null);";
         db.execSQL(query);
 
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, converti("www.dpreview.com", "DPReview"));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, converti("https://www.dpreview.com/feeds/news.xml", "DPReview"));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, converti("https://www.hdblog.it/feed/", "HDBlog"));
         db.setTransactionSuccessful();
         db.endTransaction();
     }

@@ -1,31 +1,19 @@
 package com.example.mosquito;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import com.example.mosquito.NuovaFonteActivity;
-import com.example.mosquito.R;
 import com.example.mosquito.model.Fonte;
 import com.example.mosquito.model.Fonti;
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.LinkedList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.zip.Inflater;
 
 public class FontiFragment extends Fragment {
     View root;
@@ -70,8 +58,9 @@ public class FontiFragment extends Fragment {
                 View v = convertView;
                 if (convertView == null) {
                     //LayoutInflater i = (LayoutInflater) Mosquito.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = i.inflate(R.layout.fonteinlista, null, false);
+                    v = i.inflate(R.layout.fonteinlista, parent, false);
                     Fonte f = getItem(position);
+                    if (f == null) return v;
                     TextView tvnome =  v.findViewById(R.id.nomefonte);
                     tvnome.setText(f.nome);
                     TextView tvlink = v.findViewById(R.id.linkfonte);

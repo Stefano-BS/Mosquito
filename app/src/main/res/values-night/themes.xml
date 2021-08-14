@@ -21,6 +21,11 @@
 
     <style name="txt">
         <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/black</item>
+    </style>
+    <style name="txtsubtle">
+        <item name="android:textColor">@color/dwhite</item>
+        <item name="android:backgroundTint">@color/black</item>
     </style>
 
     <style name="bottoni" xmlns:android="http://schemas.android.com/apk/res/android">

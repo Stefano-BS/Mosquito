@@ -13,4 +13,6 @@
     <!-- Nuova fonte -->
     <string name="title_activity_nuova_fonte">Aggiungi Fonte</string>
     <string name="link_sito_internet">Link sito internet</string>
+    <string name="desc_nuova_fonte">Incolla il link alla sorgente. Proveremo a ricavare il link alla sorgente feed associata.</string>
+    <string name="ordinamento">Mostra prima le notizie più vecchie</string>
 </resources>

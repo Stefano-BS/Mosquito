@@ -7,26 +7,23 @@ import java.util.LinkedList;
 
 public class Fonti {
     private static Fonti f;
-    private static DB dbH;
     private static SQLiteDatabase db;
     private static LinkedList<Fonte> fonti;
 
     private Fonti() {}
 
-    public static Fonti getIstance(){
+    public static Fonti getInstance(){
         if (f == null) {
             f =  new Fonti();
-            dbH = new DB(Mosquito.context);
-            db = dbH.getWritableDatabase();
+            db = DB.getInstance().getWritableDatabase();
             carica();
         }
         return f;
     }
 
     void close() {
-        dbH.close();
+        // dbH.close();
         db = null;
-        dbH = null;
         f = null;
     }
 
@@ -45,7 +42,7 @@ public class Fonti {
     public LinkedList<Fonte> getFonti() {return fonti;}
 
     public void aggiungiFonte(Fonte fonte) {
-        db.insert(DB.TFonti.TABLE_LOCAL_DATA,null, dbH.converti(fonte.weblink, fonte.nome));
+        db.insert(DB.TFonti.TABLE_LOCAL_DATA,null, DB.getInstance().convertiF(fonte.weblink, fonte.nome));
         fonti.add(fonte);
     }
 

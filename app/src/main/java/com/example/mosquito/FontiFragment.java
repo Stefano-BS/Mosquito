@@ -19,7 +19,7 @@ public class FontiFragment extends Fragment {
     View root;
     LayoutInflater i;
     ArrayAdapter<Fonte> adapter;
-    LinkedList<Fonte> lista = Fonti.getIstance().getFonti();
+    LinkedList<Fonte> lista = Fonti.getInstance().getFonti();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_fonti, container, false);
@@ -38,7 +38,7 @@ public class FontiFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        lista = Fonti.getIstance().getFonti();
+        lista = Fonti.getInstance().getFonti();
         adapter.notifyDataSetChanged();
     }
 
@@ -67,7 +67,7 @@ public class FontiFragment extends Fragment {
                     tvlink.setText(f.weblink);
                     Button elimina = v.findViewById(R.id.eliminafonte);
                     elimina.setOnClickListener(click -> {
-                        Fonti.getIstance().eliminaFonte(f);
+                        Fonti.getInstance().eliminaFonte(f);
                         generaLista();
                     });
                 }

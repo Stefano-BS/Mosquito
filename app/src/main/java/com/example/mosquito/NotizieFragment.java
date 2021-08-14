@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -18,35 +17,36 @@ import com.example.mosquito.model.Fonti;
 import com.example.mosquito.model.Notizia;
 import com.example.mosquito.model.Parser;
 import java.util.LinkedList;
-import java.util.concurrent.ExecutionException;
 
 public class NotizieFragment extends Fragment {
     View root;
     LayoutInflater i;
-    ArrayAdapter<Notizia> adapter;
-    LinkedList<Notizia> lista = new LinkedList<>();
+    public ArrayAdapter<Notizia> adapter;
+    public static LinkedList<Notizia> lista = new LinkedList<>();
+    public boolean finitoCaricamento = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_notizie, container, false);
         i = inflater;
         generaLista();
+        if (savedInstanceState == null || !savedInstanceState.keySet().contains("notizie")) {
+            LinkedList<Fonte> fonti = Fonti.getInstance().getFonti();
+            new Parser(this).execute(fonti);
+        } else {
+            lista = (LinkedList<Notizia>) savedInstanceState.get("notizie");
+            adapter.notifyDataSetChanged();
+            finitoCaricamento = true;
+        }
         return root;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        try {
-            lista = new LinkedList<>();
-            LinkedList<Fonte> fonti = Fonti.getIstance().getFonti();
-            lista = new Parser().execute(fonti).get();
-            //adapter.notifyDataSetChanged();
-        }
-        catch (ExecutionException e) { e.printStackTrace();}
-        catch (InterruptedException e) {e.printStackTrace();}
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if (finitoCaricamento) outState.putSerializable("notizie", lista);
+        super.onSaveInstanceState(outState);
     }
 
-    protected void generaLista() {
+    public void generaLista() {
         adapter = new ArrayAdapter<Notizia>(root.getContext(), R.layout.notiziainlista) {
             class Holder {
                 TextView tvtitolo, tvfonte, tvdata;
@@ -77,9 +77,8 @@ public class NotizieFragment extends Fragment {
                 if (n == null) return v;
                 h.tvtitolo.setText(n.titolo);
                 h.tvfonte.setText(n.f.nome);
-                h.tvdata.setText(n.data);
+                h.tvdata.setText(n.dataString());
                 h.base.setOnClickListener(click -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(n.link))));
-                //if (position == 1) startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(n.link)));
                 return v;
             }
         };

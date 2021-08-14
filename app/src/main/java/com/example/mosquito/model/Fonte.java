@@ -1,6 +1,8 @@
 package com.example.mosquito.model;
 
-public class Fonte {
+import java.io.Serializable;
+
+public class Fonte implements Serializable {
     public String weblink, nome;
 
     public Fonte(String weblink, String nome) {

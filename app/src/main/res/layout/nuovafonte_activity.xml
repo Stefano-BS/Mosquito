@@ -10,14 +10,19 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/link_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/link_sito_internet"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="20dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/desc_nuova_fonte"
+                android:paddingHorizontal="10dp"
+                android:paddingBottom="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             <EditText
                 android:id="@+id/linkNuovaFonte"
                 android:layout_width="match_parent"

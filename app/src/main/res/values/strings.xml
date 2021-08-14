@@ -14,4 +14,6 @@
     <!-- Nuova fonte -->
     <string name="title_activity_nuova_fonte">Add Soruce</string>
     <string name="link_sito_internet">Website Link</string>
+    <string name="desc_nuova_fonte">Paste the source\'s website link. We\'ll try to retrieve the associated feed\'s link.</string>
+    <string name="ordinamento">Sort by oldest news first</string>
 </resources>

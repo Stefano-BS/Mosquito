@@ -8,6 +8,7 @@ import com.example.mosquito.model.Fonte;
 import com.example.mosquito.model.Fonti;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -58,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int request, int result, Intent dati) {
         super.onActivityResult(request, result, dati);
         if (result == 1) {
-            String link = dati.getStringExtra("link");
-            if (link != null) Fonti.getIstance().aggiungiFonte(new Fonte(link, "Anonimo"));
+            Fonte f = (Fonte) dati.getSerializableExtra("fonte");
+            new AlertDialog.Builder(this).setMessage(f.nome + f.weblink).show();
+            //String link = dati.getStringExtra("link");
+            //if (link != null) Fonti.getIstance().aggiungiFonte(new Fonte(link, "Anonimo"));
         }
     }
 }

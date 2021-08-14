@@ -1,6 +1,9 @@
 package com.example.mosquito.model;
 
 import android.os.AsyncTask;
+
+import com.example.mosquito.NotizieFragment;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -8,6 +11,7 @@ import org.w3c.dom.NodeList;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.lang.Exception;
@@ -15,7 +19,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 
-public class Parser extends AsyncTask<LinkedList<Fonte>, Void, LinkedList<Notizia>> {
+public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, LinkedList<Notizia>> {
+    NotizieFragment fr;
+
+    public Parser(NotizieFragment fr) {this.fr = fr;}
+
     public LinkedList<Notizia> run(Fonte f) {
         LinkedList<Notizia> notizie = new LinkedList<Notizia>();
         HttpURLConnection connection = null;
@@ -41,10 +49,10 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, Void, LinkedList<Notizi
                 String link, data = null;
                 if (it.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) it;
-                    NodeList temp = eElement.getElementsByTagName("guid");
+                    NodeList temp = eElement.getElementsByTagName("link");
                     if (temp.getLength() != 0) link = temp.item(0).getTextContent();
                     else {
-                        temp = eElement.getElementsByTagName("link");
+                        temp = eElement.getElementsByTagName("guid");
                         if (temp.getLength() != 0) link = temp.item(0).getTextContent();
                         else continue;
                     }
@@ -64,11 +72,28 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, Void, LinkedList<Notizi
 
     @Override
     protected LinkedList<Notizia> doInBackground(LinkedList<Fonte> ... fonti) {
+        Notizia.aggiornaAscDesc();
         LinkedList<Notizia> notizie = new LinkedList<Notizia>();
-        for (Fonte f : fonti[0])
+        for (Fonte f : fonti[0]) {
             notizie.addAll(run(f));
-        /*for (int i=0; i<strings.length; i+=2)
-            notizie.addAll(run(strings[i], strings[i+1]));*/
+            Collections.sort(notizie);
+            publishProgress(notizie);
+        }
         return notizie;
+    }
+
+    @Override
+    protected void onProgressUpdate(LinkedList<Notizia>... temp) {
+        super.onProgressUpdate(temp);
+        NotizieFragment.lista = temp[0];
+        fr.adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onPostExecute(LinkedList<Notizia> notizie) {
+        super.onPostExecute(notizie);
+        NotizieFragment.lista = notizie;
+        fr.adapter.notifyDataSetChanged();
+        fr.finitoCaricamento = true;
     }
 }

@@ -32,6 +32,12 @@
 
     <style name="txt">
         <item name="android:textColor">@color/black</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="txtsubtle">
+        <item name="android:textColor">@color/dgray</item>
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 
     <style name="Theme.Mosquito.NoActionBar">

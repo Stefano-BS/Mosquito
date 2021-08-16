@@ -2,7 +2,10 @@ package com.example.mosquito.model;
 
 import android.os.AsyncTask;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.mosquito.NotizieFragment;
+import com.example.mosquito.R;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -62,7 +65,7 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
                 }
             }
         }
-        catch (Exception e) {e.printStackTrace();notizie.add(new Notizia("CRASH", "run", new Date().toString(), new Fonte("","Mosquito")));}
+        catch (Exception e) {e.printStackTrace();notizie.add(new Notizia("CRASH " + f.weblink, "run", new Date().toString(), new Fonte("","Mosquito")));}
         finally {
             if (connection != null) connection.disconnect();
             if (input != null) try{input.close();} catch (Exception e) {}
@@ -95,5 +98,6 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
         NotizieFragment.lista = notizie;
         fr.adapter.notifyDataSetChanged();
         fr.finitoCaricamento = true;
+        fr.swipe.setRefreshing(false);
     }
 }

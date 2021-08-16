@@ -18,6 +18,7 @@
         <item name ="android:textSize">16sp</item>
         <item name ="android:elevation">100dp</item>
         <item name ="android:backgroundTint">@color/btn</item>
+        <item name ="android:background">@color/btn</item>
         <item name ="android:textColor">@color/btntext</item>
         <!--item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item-->

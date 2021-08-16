@@ -64,7 +64,10 @@ public class Discover extends AsyncTask<String, Void, Fonte>  {
                         s = s.substring(s.indexOf("rel=\"alternate\""));
                         s = s.substring(s.indexOf("href=\"")+6);
                         s = s.substring(0, s.indexOf('"'));
-                        if (s.startsWith("/")) webpage = webpage + s;
+                        if (s.startsWith("/")) {
+                            if (webpage.endsWith("/")) webpage = webpage.substring(0, webpage.length());
+                            webpage = webpage + s;
+                        }
                         else webpage = s;
                         return doInBackground(webpage);
                     }

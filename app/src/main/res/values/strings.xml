@@ -14,9 +14,11 @@
     <!-- Nuova fonte -->
     <string name="title_activity_nuova_fonte">Add Soruce</string>
     <string name="link_sito_internet">Website Link</string>
-    <string name="desc_nuova_fonte">Paste the source\'s website link. We\'ll try to retrieve the associated feed\'s link.</string>
+    <string name="desc_nuova_fonte">Paste the source\'s website link. We\'ll try to retrieve the associated feed\'s link.\nIn case of problems try appending a \"/feed\" or \"/rss\" after your website\'s url.</string>
     <string name="ordinamento">Sort by oldest news first</string>
     <string name="nointernet">You have no internet connection</string>
     <string name="errore1_fonte_discover">Could not find a feed at the specified location</string>
     <string name="aggiungi_sorgenti_per_iniziare">Add sources before you start reading news!</string>
+    <string name="all">All</string>
+    <string name="seleziona_fonti">Select Sources</string>
 </resources>

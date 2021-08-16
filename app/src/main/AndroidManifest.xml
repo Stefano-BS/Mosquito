@@ -4,6 +4,8 @@
 
     <uses-sdk android:minSdkVersion="29" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:name="Mosquito"
         android:allowBackup="true"
@@ -27,5 +29,4 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

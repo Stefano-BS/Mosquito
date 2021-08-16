@@ -1,6 +1,4 @@
 package com.example.mosquito.model;
-import android.database.Cursor;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

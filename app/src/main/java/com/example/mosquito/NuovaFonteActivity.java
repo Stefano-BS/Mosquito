@@ -2,10 +2,10 @@ package com.example.mosquito;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.mosquito.model.Discover;
 import com.example.mosquito.model.Fonte;
@@ -28,12 +28,12 @@ public class NuovaFonteActivity extends AppCompatActivity {
 
     public void controlla(Fonte f) {
         if (f == null) {
-            new AlertDialog.Builder(this).setMessage("Error").show();
+            //new AlertDialog.Builder(this).setMessage("Error").show();
+            findViewById(R.id.errore_discover_fonte).setVisibility(View.VISIBLE);
         } else {
+            findViewById(R.id.errore_discover_fonte).setVisibility(View.GONE);
             Intent intent = new Intent(NuovaFonteActivity.this, MainActivity.class);
             intent.putExtra("fonte", f);
-            //String link = ((EditText)findViewById(R.id.linkNuovaFonte)).getText().toString();
-            //intent.putExtra("link", link);
             setResult(1, intent);
             finish();
         }

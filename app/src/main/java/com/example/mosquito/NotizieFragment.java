@@ -16,6 +16,8 @@ import com.example.mosquito.model.Fonte;
 import com.example.mosquito.model.Fonti;
 import com.example.mosquito.model.Notizia;
 import com.example.mosquito.model.Parser;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.LinkedList;
 
 public class NotizieFragment extends Fragment {
@@ -28,14 +30,27 @@ public class NotizieFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_notizie, container, false);
         i = inflater;
-        generaLista();
-        if (savedInstanceState == null || !savedInstanceState.keySet().contains("notizie")) {
-            LinkedList<Fonte> fonti = Fonti.getInstance().getFonti();
-            new Parser(this).execute(fonti);
-        } else {
+        if (Fonti.getInstance().getFonti().size() == 0) {
+            root.findViewById(R.id.listanotizieinfragment).setVisibility(View.GONE);
+            root.findViewById(R.id.msg_notiziefragment).setVisibility(View.VISIBLE);
+        }
+        else if (savedInstanceState == null || !savedInstanceState.keySet().contains("notizie")) {
+            if (Mosquito.internet()) {
+                LinkedList<Fonte> fonti = Fonti.getInstance().getFonti();
+                new Parser(this).execute(fonti);
+                generaLista();
+            }
+            else {
+                //Snackbar.make(root, getString(R.string.nointernet), Snackbar.LENGTH_LONG).show();
+                root.findViewById(R.id.listanotizieinfragment).setVisibility(View.GONE);
+                ((TextView)root.findViewById(R.id.msg_notiziefragment)).setText(R.string.nointernet);
+                root.findViewById(R.id.msg_notiziefragment).setVisibility(View.VISIBLE);
+            }
+        }
+        else {
             lista = (LinkedList<Notizia>) savedInstanceState.get("notizie");
-            adapter.notifyDataSetChanged();
             finitoCaricamento = true;
+            generaLista();
         }
         return root;
     }

@@ -60,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(request, result, dati);
         if (result == 1) {
             Fonte f = (Fonte) dati.getSerializableExtra("fonte");
-            new AlertDialog.Builder(this).setMessage(f.nome + f.weblink).show();
-            //String link = dati.getStringExtra("link");
-            //if (link != null) Fonti.getIstance().aggiungiFonte(new Fonte(link, "Anonimo"));
+            //new AlertDialog.Builder(this).setMessage(f.toString()).show();
+            Fonti.getInstance().aggiungiFonte(f);
         }
     }
 }

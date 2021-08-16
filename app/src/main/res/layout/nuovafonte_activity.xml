@@ -30,6 +30,17 @@
                 android:ems="10"
                 android:inputType="textUri"
                 android:singleLine="true" />
+            <TextView
+                android:id="@+id/errore_discover_fonte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/errore1_fonte_discover"
+                android:paddingHorizontal="10dp"
+                android:paddingTop="20dp"
+                android:textColor="@color/rossoelimina"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
         </LinearLayout>
     </ScrollView>
     <Button

@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".NotizieFragment"
     android:id="@+id/frammentoNotizie">
+    <TextView
+        android:id="@+id/msg_notiziefragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textStyle="italic"
+        style="@style/txt"
+        android:textSize="24dp"
+        android:text="@string/aggiungi_sorgenti_per_iniziare"
+        android:visibility="gone"
+        />
     <ListView
         android:id="@+id/listanotizieinfragment"
         android:layout_width="match_parent"

@@ -15,4 +15,7 @@
     <string name="link_sito_internet">Link sito internet</string>
     <string name="desc_nuova_fonte">Incolla il link alla sorgente. Proveremo a ricavare il link alla sorgente feed associata.</string>
     <string name="ordinamento">Mostra prima le notizie più vecchie</string>
+    <string name="nointernet">Connessione internet assente</string>
+    <string name="errore1_fonte_discover">Impossibile trovare una sorgente valida alla posizione specificata</string>
+    <string name="aggiungi_sorgenti_per_iniziare">Aggiungi delle sorgenti prima di iniziare a leggere notizie!</string>
 </resources>

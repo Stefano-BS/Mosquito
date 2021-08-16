@@ -37,11 +37,11 @@ public class DB extends SQLiteOpenHelper {
         String query = "create table " + TFonti.TABLE_LOCAL_DATA + " (" + TFonti._ID + " integer primary key, "
                 + TFonti.COLUMN_NOME + " varchar not null, " + TFonti.COLUMN_WEB + "  varchar not null);";
         db.execSQL(query);
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.dpreview.com/feeds/news.xml", "DPReview"));
+        /*db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.dpreview.com/feeds/news.xml", "DPReview"));
         db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.hdblog.it/feed/", "HDBlog"));
         db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.sonyalpharumors.com/feed/", "SonyAlphaRumors"));
         db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://mspoweruser.com/feed/", "MSPoweruser"));
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.tomshw.it/feed/", "Tom's Hardware"));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.tomshw.it/feed/", "Tom's Hardware"));*/
 
         query = "create table " + TImpo.TABLE_LOCAL_DATA + " (" + TImpo._ID + " integer primary key, "
                 + TImpo.COLUMN_ID + " integer not null, " + TImpo.COLUMN_VAL + "  varchar not null);";

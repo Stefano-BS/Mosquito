@@ -1,6 +1,7 @@
 package com.example.mosquito;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,10 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import com.example.mosquito.model.Fonte;
-import com.example.mosquito.model.Fonti;
-import com.example.mosquito.model.Notizia;
-import com.example.mosquito.model.Parser;
+import com.example.mosquito.model.*;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.LinkedList;
 
@@ -39,9 +38,7 @@ public class NotizieFragment extends Fragment {
         i = inflater;
         generaLista();
         swipe = root.findViewById(R.id.swiperefresh);
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            public void onRefresh() {aggiornaContenuti(true);}
-        });
+        swipe.setOnRefreshListener(() -> aggiornaContenuti(true));
         spin = root.findViewById(R.id.spinner);
         generaSpinner();
 
@@ -61,7 +58,11 @@ public class NotizieFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (finitoCaricamento) outState.putSerializable("notizie", lista);
+        if (finitoCaricamento) {
+            for (Notizia n: lista)
+                n.image = null;
+            outState.putSerializable("notizie", lista);
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -71,10 +72,7 @@ public class NotizieFragment extends Fragment {
             root.findViewById(R.id.select_source_bar).setVisibility(View.VISIBLE);
             ((TextView)root.findViewById(R.id.msg_notiziefragment)).setText(R.string.aggiungi_sorgenti_per_iniziare);
             root.findViewById(R.id.msg_notiziefragment).setVisibility(View.GONE);
-            if (p.getStatus() == AsyncTask.Status.RUNNING) {
-                swipe.setRefreshing(false);
-                return;
-            }
+            if (p.getStatus() == AsyncTask.Status.RUNNING) return;
             p = new Parser(this);
             p.execute(fontiAttualmenteSelezionate);
         }
@@ -92,9 +90,10 @@ public class NotizieFragment extends Fragment {
     }
 
     private void generaLista() {
-        adapter = new ArrayAdapter<Notizia>(root.getContext(), R.layout.notiziainlista) {
+        adapter = new ArrayAdapter<Notizia>(root.getContext(), stileNotizia()) {
             class Holder {
                 TextView tvtitolo, tvfonte, tvdata;
+                ImageView icona;
                 CardView base;
             }
 
@@ -108,22 +107,36 @@ public class NotizieFragment extends Fragment {
             public View getView(int position, View convertView, ViewGroup parent) {
                 Holder h = null;
                 View v = convertView;
+                Notizia n = getItem(position);
+                int stile = stileNotizia();
                 if (convertView == null) {
-                    v = i.inflate(R.layout.notiziainlista, parent, false);
+                    v = i.inflate(stile, parent, false);
                     h = new Holder();
-                    h. tvtitolo =  v.findViewById(R.id.titolonotizia);
+
+                    if (stile == R.layout.notiziainlista_amp) h.icona = v.findViewById(R.id.icona_notizia_amp);
+                    h.tvtitolo = v.findViewById(R.id.titolonotizia);
                     h.tvfonte = v.findViewById(R.id.nomefontenotizia);
                     h.tvdata = v.findViewById(R.id.datanotizia);
                     h.base = v.findViewById(R.id.gridlayoutnotiziainlista);
                     v.setTag(h);
                 }
                 else h = (Holder) v.getTag();
-                Notizia n = getItem(position);
                 if (n == null) return v;
                 h.tvtitolo.setText(n.titolo);
                 h.tvfonte.setText(n.f.nome);
                 h.tvdata.setText(n.dataString());
                 h.base.setOnClickListener(click -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(n.link))));
+                if (h.icona != null) {
+                    if (n.image != null) {
+                        h.icona.setImageBitmap(n.image);
+                        h.icona.setVisibility(View.VISIBLE);
+                    }
+                    else if (n.imgSrc != null) {
+                        h.icona.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ptr));
+                        h.icona.setVisibility(View.VISIBLE);
+                    }
+                    else h.icona.setVisibility(View.GONE);
+                }
                 return v;
             }
         };
@@ -132,8 +145,6 @@ public class NotizieFragment extends Fragment {
 
     private void generaSpinner() {
         LinkedList<Fonte> listaFonti = (LinkedList<Fonte>)Fonti.getInstance().getFonti().clone();
-        for (Fonte f : listaFonti)
-            f.nome = f.nome.substring(0, Math.min(18, f.nome.length()));
         listaFonti.add(0, new Fonte("#", getString(R.string.all)));
         ArrayAdapter<Fonte> spinAdapter = new ArrayAdapter<Fonte>(root.getContext(), android.R.layout.simple_spinner_item, listaFonti);
         spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -167,5 +178,13 @@ public class NotizieFragment extends Fragment {
                 aggiornaContenuti(false);
             }
         });
+    }
+
+    private int stileNotizia(){
+        String impostato = DB.getInstance().ottieniImpostazione(1);
+        if (impostato.equals("compatto")) return R.layout.notiziainlista_compact;
+        else if (impostato.equals("normale")) return R.layout.notiziainlista_mid;
+        else if (impostato.equals("ampio")) return R.layout.notiziainlista_amp;
+        else return R.layout.notiziainlista_mid;
     }
 }

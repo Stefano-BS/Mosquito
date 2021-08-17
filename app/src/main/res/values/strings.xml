@@ -21,4 +21,8 @@
     <string name="aggiungi_sorgenti_per_iniziare">Add sources before you start reading news!</string>
     <string name="all">All</string>
     <string name="seleziona_fonti">Select Sources</string>
+    <string name="impo_tipo_notizia">News aspect</string>
+    <string name="compatto">Compact</string>
+    <string name="normale">Normal</string>
+    <string name="ampio">Wide</string>
 </resources>

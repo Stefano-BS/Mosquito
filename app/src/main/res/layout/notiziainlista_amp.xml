@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gridlayoutnotiziainlista"
+    android:clickable="true"
+    style="@style/txt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="10dp" >
+
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/newspaper"
+            android:id="@+id/icona_notizia_amp"
+            android:layout_height="match_parent"
+            android:layout_width="120dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="0dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/titolonotizia"
+                style="@style/txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:text="Titolo della notizia, può essere molto lungo e pertanto andare a capo"
+                android:textSize="18sp" />
+            <TextView
+                style="@style/txtsubtle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fonte, anche questa può essere molto lunga"
+                android:id="@+id/nomefontenotizia"
+                android:textSize="14sp"/>
+            <TextView
+                style="@style/txtsubtle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Data, breve"
+                android:id="@+id/datanotizia"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 public class DB extends SQLiteOpenHelper {
     static final String DATABASE_NAME = "Mosquito";
-    static final int DATABASE_VERSION = 7;
+    static final int DATABASE_VERSION = 8;
     private static DB db;
 
     private DB(@Nullable Context context) {
@@ -47,6 +47,7 @@ public class DB extends SQLiteOpenHelper {
                 + TImpo.COLUMN_ID + " integer not null, " + TImpo.COLUMN_VAL + "  varchar not null);";
         db.execSQL(query);
         db.insert(TImpo.TABLE_LOCAL_DATA, null, convertiI(0, "true"));
+        db.insert(TImpo.TABLE_LOCAL_DATA, null, convertiI(1, "normale"));
 
         db.setTransactionSuccessful();
         db.endTransaction();

@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ImpostazioniFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="30dp"
+    android:paddingHorizontal="20dp">
 
     <!--TextView
         android:layout_width="match_parent"
@@ -25,9 +27,48 @@
         android:layout_height="wrap_content"
         android:checked="true"
         android:textSize="20dp"
-        android:layout_marginTop="30dp"
-        android:paddingHorizontal="20dp"
         android:text="@string/ordinamento" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/txt"
+        android:textSize="20dp"
+        android:paddingTop="20dp"
+        android:text="@string/impo_tipo_notizia" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp">
+
+        <RadioButton
+            android:id="@+id/radioCompatto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/compatto"
+            android:textSize="18dp"/>
+        <RadioButton
+            android:id="@+id/radioNormale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/normale"
+            android:checked="true"
+            android:textSize="18dp"/>
+        <RadioButton
+            android:id="@+id/radioAmpio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ampio"
+            android:textSize="18dp"/>
+
+    </RadioGroup>
+
+    <!--Spinner
+        android:id="@+id/spinnerStileNotizie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="true"
+        android:entries="@array/stili_notizie"/-->
 
 </LinearLayout>

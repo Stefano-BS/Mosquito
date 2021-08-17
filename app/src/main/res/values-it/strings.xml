@@ -20,4 +20,8 @@
     <string name="aggiungi_sorgenti_per_iniziare">Aggiungi delle sorgenti prima di iniziare a leggere notizie!</string>
     <string name="all">Tutte</string>
     <string name="seleziona_fonti">Seleziona Fonti</string>
+    <string name="impo_tipo_notizia">Aspetto notizie</string>
+    <string name="compatto">Compatto</string>
+    <string name="normale">Normale</string>
+    <string name="ampio">Ampio</string>
 </resources>

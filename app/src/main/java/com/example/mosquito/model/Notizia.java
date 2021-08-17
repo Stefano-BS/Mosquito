@@ -1,4 +1,7 @@
 package com.example.mosquito.model;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -6,11 +9,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Notizia implements Comparable<Notizia> , Serializable {
-    public String titolo, link, data;
+    public String titolo, link, data, desc, imgSrc;
     public Date d;
     public Fonte f;
     private boolean dataFail = false;
     private static boolean ascdesc = true;
+    public Bitmap image;
 
     public Notizia(String titolo, String link, String data, Fonte f) {
         this.titolo = titolo;
@@ -34,6 +38,12 @@ public class Notizia implements Comparable<Notizia> , Serializable {
                 dataFail = true;
             }
         }
+    }
+
+    public Notizia(String titolo, String link, String data, Fonte f, String desc, String imgSrc) {
+        this(titolo, link, data, f);
+        this.desc = desc;
+        this.imgSrc = imgSrc;
     }
 
     public String toString() {

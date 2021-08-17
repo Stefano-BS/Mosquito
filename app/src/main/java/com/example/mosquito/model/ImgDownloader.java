@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 
 import com.example.mosquito.Mosquito;
+import com.example.mosquito.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ public class ImgDownloader extends AsyncTask<Void, Void, LinkedList<Bitmap>> {
         this.adapter = adapter;
     }
 
+
     @Override
     protected LinkedList<Bitmap> doInBackground(Void... none) {
         LinkedList<Bitmap> ret = new LinkedList<Bitmap>();
@@ -30,6 +32,7 @@ public class ImgDownloader extends AsyncTask<Void, Void, LinkedList<Bitmap>> {
                 URL urlConnection = new URL(n.imgSrc);
                 HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
                 connection.setDoInput(true);
+                connection.setConnectTimeout(Mosquito.context.getResources().getInteger(R.integer.timeout_img));
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(input);

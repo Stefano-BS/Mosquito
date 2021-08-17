@@ -25,4 +25,5 @@
     <string name="compatto">Compact</string>
     <string name="normale">Normal</string>
     <string name="ampio">Wide</string>
+    <string name="visita_pagina_notizia">Go to news\' webpage</string>
 </resources>

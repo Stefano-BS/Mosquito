@@ -7,6 +7,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.mosquito.Mosquito;
 import com.example.mosquito.NuovaFonteActivity;
+import com.example.mosquito.R;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -36,7 +38,7 @@ public class Discover extends AsyncTask<String, Void, Fonte>  {
         try {
             URL url = new URL(webpage);
             connection = (HttpURLConnection)url.openConnection();
-            connection.setConnectTimeout(500);
+            connection.setConnectTimeout(Mosquito.context.getResources().getInteger(R.integer.timeout_discover));
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.connect();

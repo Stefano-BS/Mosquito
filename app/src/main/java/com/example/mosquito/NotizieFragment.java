@@ -2,7 +2,6 @@ package com.example.mosquito;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +29,7 @@ public class NotizieFragment extends Fragment {
     public boolean finitoCaricamento = false;
     LinkedList<Fonte> fontiAttualmenteSelezionate = Fonti.getInstance().getFonti();
     Parser p = new Parser(this);
+    public ImgDownloader imdl;
     public SwipeRefreshLayout swipe;
     Spinner spin;
 
@@ -66,13 +66,23 @@ public class NotizieFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onDestroy() {
+        if (p != null && p.getStatus() == AsyncTask.Status.RUNNING) p.cancel(true);
+        if (imdl != null && imdl.getStatus() == AsyncTask.Status.RUNNING) imdl.cancel(true);
+        super.onDestroy();
+    }
+
     protected void aggiornaContenuti(boolean snackbar) {
         if (Mosquito.internet()) {
             root.findViewById(R.id.listanotizieinfragment).setVisibility(View.VISIBLE);
             root.findViewById(R.id.select_source_bar).setVisibility(View.VISIBLE);
             ((TextView)root.findViewById(R.id.msg_notiziefragment)).setText(R.string.aggiungi_sorgenti_per_iniziare);
             root.findViewById(R.id.msg_notiziefragment).setVisibility(View.GONE);
-            if (p.getStatus() == AsyncTask.Status.RUNNING) return;
+            if (p.getStatus() == AsyncTask.Status.RUNNING) {
+                if (imdl != null) imdl.cancel(true);
+                p.cancel(true);
+            }
             p = new Parser(this);
             p.execute(fontiAttualmenteSelezionate);
         }
@@ -125,7 +135,11 @@ public class NotizieFragment extends Fragment {
                 h.tvtitolo.setText(n.titolo);
                 h.tvfonte.setText(n.f.nome);
                 h.tvdata.setText(n.dataString());
-                h.base.setOnClickListener(click -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(n.link))));
+                h.base.setOnClickListener(click -> {
+                    Intent intent = new Intent(root.getContext(), ActivityNotizia.class);
+                    intent.putExtra("notizia", n.link);
+                    startActivity(intent);
+                });
                 if (h.icona != null) {
                     if (n.image != null) {
                         h.icona.setImageBitmap(n.image);

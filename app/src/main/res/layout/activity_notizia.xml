@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ActivityNotizia">
+
+        <TextView
+            android:id="@+id/titolo_notizia_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Titolo della notizia"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/fonte_notizia_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fonte della notizia"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/data_notizia_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data della notizia"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/icona_notizia_activity"
+            android:paddingEnd="10dp"
+            android:paddingStart="0dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/visita_pagina_notizia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/visita_pagina_notizia"
+            android:layout_gravity="bottom" />
+
+
+        <WebView
+            android:id="@+id/corpo_notizia_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Corpo della notizia"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="18sp"
+            android:textAppearance="@style/txt"/>
+
+    </LinearLayout>
+</ScrollView>

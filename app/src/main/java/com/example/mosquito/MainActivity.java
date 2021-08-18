@@ -3,12 +3,9 @@ package com.example.mosquito;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-
 import com.example.mosquito.model.Fonte;
 import com.example.mosquito.model.Fonti;
 import com.google.android.material.navigation.NavigationView;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    public static Menu menuToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menuToolbar = menu;
         getMenuInflater().inflate(R.menu.main, menu);
+        menu.getItem(0).setOnMenuItemClickListener(click -> visualizzaNonLette(true));
+        menu.getItem(1).setOnMenuItemClickListener(click -> visualizzaNonLette(false));
         return true;
     }
 
@@ -60,12 +61,21 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(request, result, dati);
         if (result == 1) {
             Fonte f = (Fonte) dati.getSerializableExtra("fonte");
-            //new AlertDialog.Builder(this).setMessage(f.toString()).show();
             Fonti.getInstance().aggiungiFonte(f);
         }
     }
+
+    public boolean visualizzaNonLette(boolean visualizza) {
+        if (visualizza) menuToolbar.getItem(0).setChecked(true);
+        else menuToolbar.getItem(0).setChecked(false);
+        if (visualizza) menuToolbar.getItem(1).setChecked(false);
+        else menuToolbar.getItem(1).setChecked(true);
+        NotizieFragment frag = (NotizieFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager().getFragments().get(0);
+        if (frag.visualizzaLette != visualizza) frag.aggiornaContenuti(true, visualizza);
+        return true;
+    }
 }
-//int id=0;
+
 //for (Fragment f : getSupportFragmentManager().getFragments())
 /*    id = f.getId();*///new AlertDialog.Builder(this).setMessage("tag " + f.getTag() + " id " + f.getId()).setTitle("").show();
 //FontiFragment fr = getFragmentManager().findFragmentById(R.id.frammentoNotizie);

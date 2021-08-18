@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.mosquito.model.Discover;
 import com.example.mosquito.model.Fonte;
 
@@ -16,8 +16,6 @@ public class NuovaFonteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nuovafonte_activity);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(false);
 
         Button aggiungi = findViewById(R.id.aggiungiFonte);
         aggiungi.setOnClickListener(click -> {

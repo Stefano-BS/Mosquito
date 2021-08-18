@@ -6,15 +6,17 @@ import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 
 import com.example.mosquito.Mosquito;
+import com.example.mosquito.NotizieFragment;
 import com.example.mosquito.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 
-public class ImgDownloader extends AsyncTask<Void, Void, LinkedList<Bitmap>> {
+public class ImgDownloader extends AsyncTask<Void, Void, HashMap<String, Bitmap>> {
     ArrayAdapter adapter;
     private LinkedList<Notizia> destinazioni;
 
@@ -25,9 +27,10 @@ public class ImgDownloader extends AsyncTask<Void, Void, LinkedList<Bitmap>> {
 
 
     @Override
-    protected LinkedList<Bitmap> doInBackground(Void... none) {
-        LinkedList<Bitmap> ret = new LinkedList<Bitmap>();
+    protected HashMap<String, Bitmap> doInBackground(Void... none) {
+        HashMap<String, Bitmap> ret = new HashMap<>();
         for (Notizia n : destinazioni) {
+            if (n.imgSrc == null || n.imgSrc.length()<5 || NotizieFragment.catalogo.containsKey(n.imgSrc)) continue;
             try {
                 URL urlConnection = new URL(n.imgSrc);
                 HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
@@ -42,17 +45,17 @@ public class ImgDownloader extends AsyncTask<Void, Void, LinkedList<Bitmap>> {
                     byte[] BYTE = bytearrayoutputstream.toByteArray();
                     bitmap = BitmapFactory.decodeByteArray(BYTE, 0, BYTE.length);
                 }
-                ret.add(bitmap);
-            } catch (Exception e) {ret.add(null);}
+                ret.put(n.imgSrc, bitmap);
+            } catch (Exception e) {continue;}
         }
         return ret;
     }
 
     @Override
-    protected void onPostExecute(LinkedList<Bitmap> result) {
+    protected void onPostExecute(HashMap<String, Bitmap> result) {
         super.onPostExecute(result);
-        for (int i=0; i<destinazioni.size(); i++)
-            destinazioni.get(i).image = result.get(i);
+        NotizieFragment.catalogo.putAll(result);
+        NotizieFragment.imdl.remove(this);
         adapter.notifyDataSetChanged();
     }
 }

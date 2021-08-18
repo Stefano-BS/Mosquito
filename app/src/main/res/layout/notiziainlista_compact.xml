@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingVertical="6dp"
-        android:paddingHorizontal="10dp" >
+        android:paddingHorizontal="10dp">
         <TextView
             style="@style/txt"
             android:layout_row="1"

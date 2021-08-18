@@ -8,33 +8,34 @@
     android:stretchColumns="0">
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            style="@style/txt"
-            android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_height="match_parent"
-            android:text="Titolo della fonte, che può essere molto lungo"
-            android:id="@+id/nomefonte"
-            android:textSize="18dp"/>
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+            <TextView
+                style="@style/txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Titolo della fonte, che può essere molto lungo"
+                android:id="@+id/nomefonte"
+                android:textSize="18sp"/>
+            <TextView
+                style="@style/txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrizione della fonte"
+                android:id="@+id/linkfonte"
+                android:textSize="14sp"/>
+        </LinearLayout>
         <Button
             style="@style/btnelimina"
             android:id="@+id/eliminafonte"
-            android:layout_width="40dp"
+            android:layout_width="45dp"
             android:layout_height="match_parent"
-            android:layout_gravity="right|center"
-            android:elevation="50dp"
+            android:layout_gravity="end|center"
+            android:textSize="20sp"
             android:layout_columnWeight="2"
             android:text="⨯"/>
-    </TableRow>
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            style="@style/txt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Descrizione della fonte"
-            android:id="@+id/linkfonte"
-            android:textSize="14dp"/>
     </TableRow>
 </TableLayout>

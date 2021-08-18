@@ -1,11 +1,7 @@
 package com.example.mosquito.model;
 
 import android.os.AsyncTask;
-
-import com.example.mosquito.Mosquito;
-import com.example.mosquito.NotizieFragment;
-import com.example.mosquito.R;
-
+import com.example.mosquito.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,7 +43,7 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
             NodeList items = doc.getElementsByTagName("item");
             for (int i = 0; i < items.getLength(); i++){
                 Node it = items.item(i);
-                String link, data = null, imgSrc = null;
+                String link = null, data = null, imgSrc = null;
                 if (it.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) it;
                     // PARAMETRI BASE
@@ -58,6 +54,7 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
                         if (temp.getLength() != 0) link = temp.item(0).getTextContent();
                         else continue;
                     }
+                    if (!fr.visualizzaLette && DB.getInstance().letta(link)) continue;
                     temp = eElement.getElementsByTagName("pubDate");
                     if (temp.getLength() != 0) data = temp.item(0).getTextContent();
                     // IMMAGINE ARTICOLO
@@ -66,15 +63,19 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
                         imgSrc = temp.item(0).getTextContent();
                         imgSrc.replace("&lt;", "<");
                         imgSrc.replace("&gt;", ">");
-                        if (imgSrc.contains("<img src=")) {
-                            imgSrc = imgSrc.substring(imgSrc.indexOf("<img src=") + 10);
+                        if (imgSrc.contains("<img ")) {
+                            imgSrc = imgSrc.substring(imgSrc.indexOf("<img "));
+                            imgSrc = imgSrc.substring(0, imgSrc.indexOf(">"));
+                            imgSrc = imgSrc.substring(imgSrc.indexOf("src=") + 5);
                             imgSrc = imgSrc.substring(0, imgSrc.indexOf('"'));
                         } else {
                             temp = eElement.getElementsByTagName("content:encoded");
                             if (temp.getLength() != 0) {
                                 imgSrc = temp.item(0).getTextContent();
-                                if (imgSrc.contains("<img src=")) {
-                                    imgSrc = imgSrc.substring(imgSrc.indexOf("<img src=") + 10);
+                                if (imgSrc.contains("<img ")) {
+                                    imgSrc = imgSrc.substring(imgSrc.indexOf("<img "));
+                                    imgSrc = imgSrc.substring(0, imgSrc.indexOf(">"));
+                                    imgSrc = imgSrc.substring(imgSrc.indexOf("src=") + 5);
                                     imgSrc = imgSrc.substring(0, imgSrc.indexOf('"'));
                                 } else imgSrc = null;
                             } else imgSrc = null;
@@ -87,12 +88,15 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
                     temp = eElement.getElementsByTagName("content:encoded");
                     if (temp.getLength() != 0) desc2 = temp.item(0).getTextContent();
                     String desc = desc1.length() > desc2.length() ? desc1 : desc2;
-                    desc.replace("&lt;", "<");
-                    desc.replace("&gt;", ">");
-                    desc.replace("<![CDATA[ ", "");
-                    if (desc.endsWith(" ]]>")) desc = desc.substring(0, desc.length()-4);
+                    //desc.replace("&lt;", "<");
+                    //desc.replace("&gt;", ">");
+                    desc.replace("<![CDATA[", "");
+                    if (desc.endsWith("]]>")) desc = desc.substring(0, desc.length()-4);
+                    desc = Unescape.unescapeHtml3(desc);
 
-                    notizie.add(new Notizia(eElement.getElementsByTagName("title").item(0).getTextContent(), link, data, f, desc, imgSrc));
+                    Notizia novella = new Notizia(eElement.getElementsByTagName("title").item(0).getTextContent(), link, data, f, desc, imgSrc);
+                    novella.letta = DB.getInstance().letta(link);
+                    notizie.add(novella);
                 }
             }
         }
@@ -120,6 +124,11 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
     protected void onProgressUpdate(LinkedList<Notizia>... temp) {
         super.onProgressUpdate(temp);
         NotizieFragment.lista = temp[0];
+        if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
+            ImgDownloader imdl = new ImgDownloader(temp[0], fr.adapter);
+            fr.imdl.add(imdl);
+            imdl.execute();
+        }
         fr.adapter.notifyDataSetChanged();
     }
 
@@ -128,10 +137,11 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
         super.onPostExecute(notizie);
         NotizieFragment.lista = notizie;
         if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
-            if (fr.imdl != null && fr.imdl.getStatus() == AsyncTask.Status.RUNNING)
-                fr.imdl.cancel(true);
-            fr.imdl = new ImgDownloader(notizie, fr.adapter);
-            fr.imdl.execute();
+            /*if (fr.imdl != null && fr.imdl.getStatus() == AsyncTask.Status.RUNNING)
+                fr.imdl.cancel(true);*/
+            ImgDownloader imdl = new ImgDownloader(notizie, fr.adapter);
+            fr.imdl.add(imdl);
+            imdl.execute();
         }
         //else fr.adapter.notifyDataSetChanged();
         fr.finitoCaricamento = true;

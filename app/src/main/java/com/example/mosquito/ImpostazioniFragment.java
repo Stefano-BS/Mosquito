@@ -15,6 +15,8 @@ public class ImpostazioniFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_impostazioni, container, false);
+        MainActivity.menuToolbar.getItem(0).setVisible(false);
+        MainActivity.menuToolbar.getItem(1).setVisible(false);
 
         Switch ascdesc = root.findViewById(R.id.ascdesc);
         ascdesc.setChecked(DB.getInstance().ottieniImpostazione(0).equals("true"));

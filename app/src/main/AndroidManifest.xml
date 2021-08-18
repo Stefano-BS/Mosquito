@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".Mosquito"
+        android:name="Mosquito"
         android:allowBackup="true"
         android:extractNativeLibs="false"
         android:icon="@drawable/mosquito"
@@ -16,7 +16,7 @@
         android:roundIcon="@drawable/mosquito"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mosquito">
-        <activity android:name=".ActivityNotizia"></activity>
+        <activity android:name=".ActivityNotizia" />
         <activity
             android:name=".NuovaFonteActivity"
             android:label="@string/title_activity_nuova_fonte" />
@@ -31,5 +31,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

@@ -23,6 +23,8 @@ public class FontiFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_fonti, container, false);
+        MainActivity.menuToolbar.getItem(0).setVisible(false);
+        MainActivity.menuToolbar.getItem(1).setVisible(false);
         i = inflater;
 
         Button bottone = root.findViewById(R.id.aggiungiFonte);

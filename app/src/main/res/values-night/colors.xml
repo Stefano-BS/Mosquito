@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="testo">#000000</color>
-    <color name="testosubt">#555555</color>
-    <color name="testosubt2">#707070</color>
+    <color name="testo">#FFFFFF</color>
+    <color name="testosubt">#BBBBBB</color>
+    <color name="testosubt2">#A0A0A0</color>
 
     <color name="vbianco">#FFFDFFFD</color>
     <color name="verdechiarissimo">#FAFFEA</color>

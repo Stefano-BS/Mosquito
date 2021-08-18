@@ -1,16 +1,15 @@
 <resources>
     <string name="app_name">Mosquito</string>
-
     <string name="nav_header_title">Mosquito</string>
     <string name="nav_header_subtitle">bzzz</string>
+
+    <string name="title_activity_in_app_browser">In App Browser</string>
 
     <string name="notizie">Notizie</string>
     <string name="fonti">Fonti</string>
     <string name="impostazioni">Impostazioni</string>
     <string name="elenco_fonti">Elenco Fonti</string>
     <string name="aggiungi">Aggiungi</string>
-
-    <!-- Nuova fonte -->
     <string name="title_activity_nuova_fonte">Aggiungi Fonte</string>
     <string name="link_sito_internet">Link sito internet</string>
     <string name="desc_nuova_fonte">Incolla il link alla sorgente. Proveremo a ricavare il link alla sorgente feed associata.\nIn caso di problemi prova ad aggiungere un \"/feed\" o \"/rss\" alla url del sito.</string>
@@ -27,4 +26,7 @@
     <string name="visita_pagina_notizia">Apri nel browser</string>
     <string name="tutte">Tutte</string>
     <string name="non_lette">Non lette</string>
+    <string name="condividi">Condividi</string>
+    <string name="esterno">Esterno</string>
+    <string name="impo_tipo_browser">Tipo di Browser preferito</string>
 </resources>

@@ -21,19 +21,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/-->
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/ascdesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="true"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:text="@string/ordinamento" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/txt"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:paddingTop="20dp"
         android:paddingBottom="10dp"
         android:text="@string/impo_tipo_notizia" />
@@ -41,28 +41,58 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp">
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp">
 
         <RadioButton
             android:id="@+id/radioCompatto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/compatto"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
         <RadioButton
             android:id="@+id/radioNormale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/normale"
             android:checked="true"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
         <RadioButton
             android:id="@+id/radioAmpio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ampio"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
+    </RadioGroup>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/txt"
+        android:textSize="20sp"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:text="@string/impo_tipo_browser" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp">
+
+        <RadioButton
+            android:id="@+id/radioFuoriApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/esterno"
+            android:textSize="18sp"/>
+        <RadioButton
+            android:id="@+id/radioInApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="In App"
+            android:checked="true"
+            android:textSize="18sp"/>
     </RadioGroup>
 
     <!--Spinner

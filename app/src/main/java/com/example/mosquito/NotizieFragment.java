@@ -1,5 +1,6 @@
 package com.example.mosquito;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,6 +26,8 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.mosquito.model.*;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -95,11 +98,12 @@ public class NotizieFragment extends Fragment {
                 h.tvdata.setTextColor(coloreTestosub);
                 h.tvfonte.setTextColor(coloreTestosub);
 
+                View finalV = v; // Vars referred in an anonymous class must be final or effecitvely final
                 h.base.setOnTouchListener(new OnTouchListener(){
                     final GestureDetector gestureDetector = new GestureDetector(new SimpleOnGestureListener() {
-                        private static final int SWIPE_MIN_DISTANCE = 120;
+                        private static final int SWIPE_MIN_DISTANCE = 100;
                         private static final int SWIPE_MAX_OFF_PATH = 250;
-                        private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+                        private static final int SWIPE_THRESHOLD_VELOCITY = 100;
 
                         @Override
                         public boolean onSingleTapConfirmed(MotionEvent e) {
@@ -113,10 +117,15 @@ public class NotizieFragment extends Fragment {
                             if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) return false;
                             if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) ||
                                     (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)) {
+                                if (n.letta) DB.getInstance().marcaNonLetta(n.link);
+                                else DB.getInstance().marcaLetta(n.link);
                                 n.letta = !n.letta;
-                                if (!n.letta) DB.getInstance().marcaNonLetta(n.link);
-                                DB.getInstance().marcaLetta(n.link);
                                 adapter.notifyDataSetChanged();
+                                float finoA = -finalV.getWidth()/3*2;
+                                if (e2.getX() > e1.getX()) finoA = -finoA;
+                                ObjectAnimator van = ObjectAnimator.ofFloat(finalV, "X", 0, finoA, 0);
+                                van.setDuration(500);
+                                van.start();
                             }
                             return super.onFling(e1, e2, velocityX, velocityY);
                         }
@@ -156,8 +165,14 @@ public class NotizieFragment extends Fragment {
         else if (savedInstanceState == null || !savedInstanceState.keySet().contains("notizie"))
             aggiornaContenuti(false, visualizzaLette);
         else {
-            lista = (LinkedList<Notizia>) savedInstanceState.getSerializable("notizie");
-            finitoCaricamento = true;
+            Serializable bundle = savedInstanceState.getSerializable("notizie");
+            if (bundle instanceof LinkedList) {
+                lista = (LinkedList) bundle;
+                finitoCaricamento = true;
+            }
+            else { // boh
+                aggiornaContenuti(false, visualizzaLette);
+            }
         }
         return root;
     }
@@ -166,6 +181,12 @@ public class NotizieFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (finitoCaricamento) outState.putSerializable("notizie", lista);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null) adapter.notifyDataSetChanged();
     }
 
     @Override

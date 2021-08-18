@@ -11,7 +11,7 @@ import com.example.mosquito.Mosquito;
 
 public class DB extends SQLiteOpenHelper {
     static final String DATABASE_NAME = "Mosquito";
-    static final int DATABASE_VERSION = 15;
+    static final int DATABASE_VERSION = 16;
     private static DB db;
 
     private DB(@Nullable Context context) {
@@ -46,6 +46,7 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(query);
         db.insert(TImpo.TABLE_LOCAL_DATA, null, convertiI(0, "true"));
         db.insert(TImpo.TABLE_LOCAL_DATA, null, convertiI(1, "normale"));
+        db.insert(TImpo.TABLE_LOCAL_DATA, null, convertiI(2, "inapp"));
 
         query = "create table " + TNL.TABLE_LOCAL_DATA + " (" + TNL._ID + " integer primary key, "
                 + TNL.COLUMN_NOT + " varchar not null);";

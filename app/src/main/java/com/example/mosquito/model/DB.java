@@ -1,4 +1,5 @@
 package com.example.mosquito.model;
+import com.example.mosquito.Mosquito;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,11 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import androidx.annotation.Nullable;
-import com.example.mosquito.Mosquito;
 
 public class DB extends SQLiteOpenHelper {
     static final String DATABASE_NAME = "Mosquito";
-    static final int DATABASE_VERSION = 16;
+    static final int DATABASE_VERSION = 19;
     private static DB db;
 
     private DB(@Nullable Context context) {
@@ -23,7 +23,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public static class TFonti implements BaseColumns {
-        public static final String TABLE_LOCAL_DATA = "fonti", COLUMN_WEB = "weblink", COLUMN_NOME = "nome";}
+        public static final String TABLE_LOCAL_DATA = "fonti", COLUMN_WEB = "weblink", COLUMN_NOME = "nome", COLUMN_NOTIFICA = "notifica";}
     public static class TImpo implements BaseColumns {
         public static final String TABLE_LOCAL_DATA = "impostazioni", COLUMN_ID = "impoid", COLUMN_VAL = "val";}
     public static class TNL implements BaseColumns {
@@ -33,13 +33,13 @@ public class DB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.beginTransaction();
         String query = "create table " + TFonti.TABLE_LOCAL_DATA + " (" + TFonti._ID + " integer primary key, "
-                + TFonti.COLUMN_NOME + " varchar not null, " + TFonti.COLUMN_WEB + "  varchar not null);";
+                + TFonti.COLUMN_NOME + " varchar not null, " + TFonti.COLUMN_WEB + "  varchar not null, " + TFonti.COLUMN_NOTIFICA + " integer);";
         db.execSQL(query);
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.dpreview.com/feeds/news.xml", "DPReview"));
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.hdblog.it/feed/", "HDBlog"));
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.sonyalpharumors.com/feed/", "SonyAlphaRumors"));
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://mspoweruser.com/feed/", "MSPoweruser"));
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.tomshw.it/feed/", "Tom's Hardware"));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.dpreview.com/feeds/news.xml", "DPReview", false));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.hdblog.it/feed/", "HDBlog", false));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.sonyalpharumors.com/feed/", "SonyAlphaRumors", false));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://mspoweruser.com/feed/", "MSPoweruser", false));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.tomshw.it/feed/", "Tom's Hardware", false));
 
         query = "create table " + TImpo.TABLE_LOCAL_DATA + " (" + TImpo._ID + " integer primary key, "
                 + TImpo.COLUMN_ID + " integer not null, " + TImpo.COLUMN_VAL + "  varchar not null);";
@@ -64,10 +64,11 @@ public class DB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public static ContentValues convertiF(String weblink, String nome) {
+    public static ContentValues convertiF(String weblink, String nome, boolean notifiche) {
         ContentValues cv = new ContentValues();
         cv.put(TFonti.COLUMN_WEB, weblink);
         cv.put(TFonti.COLUMN_NOME, nome);
+        cv.put(TFonti.COLUMN_NOTIFICA, notifiche ? 1 : 0);
         return cv;
     }
 

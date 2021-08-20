@@ -1,4 +1,5 @@
 package com.example.mosquito;
+import com.example.mosquito.model.DB;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.widget.RadioButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import com.example.mosquito.model.DB;
 
 public class ImpostazioniFragment extends Fragment {
 

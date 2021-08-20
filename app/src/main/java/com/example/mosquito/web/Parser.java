@@ -1,7 +1,17 @@
-package com.example.mosquito.model;
-
-import android.os.AsyncTask;
+package com.example.mosquito.web;
 import com.example.mosquito.*;
+import com.example.mosquito.model.*;
+import com.example.mosquito.notifiche.JobNotifiche;
+import com.example.mosquito.notifiche.NotificheService;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.job.JobService;
+import android.content.Intent;
+import android.os.AsyncTask;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,13 +23,16 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.lang.Exception;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, LinkedList<Notizia>> {
     NotizieFragment fr;
+    boolean modNotifiche = false;
+    NotificheService ns;
+    JobService jn;
 
     public Parser(NotizieFragment fr) {this.fr = fr;}
+    public Parser(NotificheService ns) {this.ns = ns; modNotifiche = true;}
+    public Parser(JobNotifiche jn) {this.jn = jn; modNotifiche = true;}
 
     public LinkedList<Notizia> run(Fonte f) {
         LinkedList<Notizia> notizie = new LinkedList<Notizia>();
@@ -36,7 +49,7 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
             Document doc = db.parse(input);
             doc.getDocumentElement().normalize();
             if (!doc.getDocumentElement().getNodeName().equals("rss")) {
-                notizie.add(new Notizia("RSSCRASH", "run", new Date().toString(), new Fonte("","Mosquito")));
+                notizie.add(new Notizia("RSSCRASH", "run", new Date().toString(), new Fonte("","Mosquito", false)));
                 return notizie;
             }
 
@@ -54,12 +67,12 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
                         if (temp.getLength() != 0) link = temp.item(0).getTextContent();
                         else continue;
                     }
-                    if (!fr.visualizzaLette && DB.getInstance().letta(link)) continue;
+                    if ((modNotifiche && DB.getInstance().letta(link)) || (!modNotifiche && !fr.visualizzaLette && DB.getInstance().letta(link))) continue;
                     temp = eElement.getElementsByTagName("pubDate");
                     if (temp.getLength() != 0) data = temp.item(0).getTextContent();
                     // IMMAGINE ARTICOLO
                     temp = eElement.getElementsByTagName("description");
-                    if (temp.getLength() != 0) {
+                    if (!modNotifiche && temp.getLength() != 0) {
                         imgSrc = temp.item(0).getTextContent();
                         imgSrc.replace("&lt;", "<");
                         imgSrc.replace("&gt;", ">");
@@ -97,10 +110,11 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
                     Notizia novella = new Notizia(eElement.getElementsByTagName("title").item(0).getTextContent(), link, data, f, desc, imgSrc);
                     novella.letta = DB.getInstance().letta(link);
                     notizie.add(novella);
+                    if (modNotifiche) return notizie;
                 }
             }
         }
-        catch (Exception e) {e.printStackTrace();notizie.add(new Notizia("CRASH " + f.weblink, "run", new Date().toString(), new Fonte("","Mosquito"), null, null));}
+        catch (Exception e) {e.printStackTrace();notizie.add(new Notizia("CRASH " + f.weblink, "run", new Date().toString(), new Fonte("","Mosquito", false), null, null));}
         finally {
             if (connection != null) connection.disconnect();
             if (input != null) try{input.close();} catch (Exception e) {}
@@ -110,12 +124,17 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
 
     @Override
     protected LinkedList<Notizia> doInBackground(LinkedList<Fonte> ... fonti) {
-        Notizia.aggiornaAscDesc();
         LinkedList<Notizia> notizie = new LinkedList<Notizia>();
-        for (Fonte f : fonti[0]) {
-            notizie.addAll(run(f));
-            Collections.sort(notizie);
-            publishProgress(notizie);
+        if (modNotifiche) {
+            for (Fonte f : fonti[0])
+                notizie.addAll(run(f));
+        } else {
+            Notizia.aggiornaAscDesc();
+            for (Fonte f : fonti[0]) {
+                notizie.addAll(run(f));
+                Collections.sort(notizie);
+                publishProgress(notizie);
+            }
         }
         return notizie;
     }
@@ -123,28 +142,49 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
     @Override
     protected void onProgressUpdate(LinkedList<Notizia>... temp) {
         super.onProgressUpdate(temp);
-        NotizieFragment.lista = temp[0];
-        if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
-            ImgDownloader imdl = new ImgDownloader(temp[0], fr.adapter);
-            fr.imdl.add(imdl);
-            imdl.execute();
+        if (modNotifiche) {
+            NotizieFragment.lista = temp[0];
+            if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
+                ImgDownloader imdl = new ImgDownloader(temp[0], fr.adapter);
+                fr.imdl.add(imdl);
+                imdl.execute();
+            }
+            fr.adapter.notifyDataSetChanged();
         }
-        fr.adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onPostExecute(LinkedList<Notizia> notizie) {
         super.onPostExecute(notizie);
-        NotizieFragment.lista = notizie;
-        if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
+        if (modNotifiche) {
+            if (ns != null) ns.callbackParser(notizie);
+            else if (jn != null) callbackNotifiche(notizie);
+        }
+        else {
+            NotizieFragment.lista = notizie;
+            if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
             /*if (fr.imdl != null && fr.imdl.getStatus() == AsyncTask.Status.RUNNING)
                 fr.imdl.cancel(true);*/
-            ImgDownloader imdl = new ImgDownloader(notizie, fr.adapter);
-            fr.imdl.add(imdl);
-            imdl.execute();
+                ImgDownloader imdl = new ImgDownloader(notizie, fr.adapter);
+                fr.imdl.add(imdl);
+                imdl.execute();
+            }
+            //else fr.adapter.notifyDataSetChanged();
+            fr.finitoCaricamento = true;
+            fr.swipe.setRefreshing(false);
         }
-        //else fr.adapter.notifyDataSetChanged();
-        fr.finitoCaricamento = true;
-        fr.swipe.setRefreshing(false);
+    }
+
+    public void callbackNotifiche(LinkedList<Notizia> notizie) {
+        NotificationManager nm = Mosquito.context.getSystemService(NotificationManager.class);
+        for (Notizia n: notizie) {
+            Intent notificationIntent = new Intent(Mosquito.context, ActivityNotizia.class);
+            notificationIntent.putExtra("notizia_obj", n);
+            PendingIntent contentIntent = PendingIntent.getActivity(Mosquito.context, n.f.weblink.hashCode(), notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            Notification notifica = new Notification.Builder(Mosquito.context).setStyle(new Notification.BigTextStyle()).setSmallIcon(R.drawable.mosquito)
+                    .setContentTitle(n.f.nome).setContentText(n.titolo).setContentIntent(contentIntent)
+                    .setWhen(System.currentTimeMillis()).setChannelId(n.f.weblink).setAutoCancel(true).build();
+            nm.notify(n.f.weblink.hashCode(), notifica);
+        }
     }
 }

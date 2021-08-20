@@ -3,4 +3,5 @@
     <integer name="timeout_discover">1000</integer>
     <integer name="timeout_parse">500</integer>
     <integer name="timeout_img">200</integer>
+    <integer name="timeout_notifiche">21600000</integer>
 </resources>

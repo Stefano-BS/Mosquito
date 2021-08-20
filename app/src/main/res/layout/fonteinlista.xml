@@ -28,7 +28,7 @@
                 android:id="@+id/linkfonte"
                 android:textSize="14sp"/>
         </LinearLayout>
-        <Button
+        <!--Button
             style="@style/btnelimina"
             android:id="@+id/eliminafonte"
             android:layout_width="45dp"
@@ -36,6 +36,34 @@
             android:layout_gravity="end|center"
             android:textSize="20sp"
             android:layout_columnWeight="2"
-            android:text="⨯"/>
+            android:text="⨯"/-->
     </TableRow>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layoutBottoniFonte"
+        android:visibility="gone">
+
+        <Button
+            style="@style/btnelimina"
+            android:id="@+id/eliminafonte"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:text="@string/elimina_fonte"/>
+
+        <Button
+            android:id="@+id/attivanotifiche"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:layout_gravity="center"
+            android:text="@string/attiva_notifiche"/>
+    </LinearLayout>
 </TableLayout>

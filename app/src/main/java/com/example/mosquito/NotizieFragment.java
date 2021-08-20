@@ -1,5 +1,9 @@
 package com.example.mosquito;
+import com.example.mosquito.model.*;
+import com.example.mosquito.web.ImgDownloader;
+import com.example.mosquito.web.Parser;
 
+import com.google.android.material.snackbar.Snackbar;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,9 +28,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import com.example.mosquito.model.*;
-import com.google.android.material.snackbar.Snackbar;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -103,7 +104,7 @@ public class NotizieFragment extends Fragment {
                     final GestureDetector gestureDetector = new GestureDetector(new SimpleOnGestureListener() {
                         private static final int SWIPE_MIN_DISTANCE = 100;
                         private static final int SWIPE_MAX_OFF_PATH = 250;
-                        private static final int SWIPE_THRESHOLD_VELOCITY = 100;
+                        private static final int SWIPE_THRESHOLD_VELOCITY = 80;
 
                         @Override
                         public boolean onSingleTapConfirmed(MotionEvent e) {
@@ -114,9 +115,9 @@ public class NotizieFragment extends Fragment {
                         }
 
                         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) return false;
-                            if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) ||
-                                    (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)) {
+                            double dist = Math.sqrt(Math.pow(e1.getX()-e2.getX(), 2) + Math.pow(e1.getY()-e2.getY(), 2));
+                            //if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) return false;
+                            if (dist > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                                 if (n.letta) DB.getInstance().marcaNonLetta(n.link);
                                 else DB.getInstance().marcaLetta(n.link);
                                 n.letta = !n.letta;
@@ -226,7 +227,7 @@ public class NotizieFragment extends Fragment {
 
     private void generaSpinner() {
         LinkedList<Fonte> listaFonti = (LinkedList<Fonte>)Fonti.getInstance().getFonti().clone();
-        listaFonti.add(0, new Fonte("#", getString(R.string.all)));
+        listaFonti.add(0, new Fonte("#", getString(R.string.all), false));
         ArrayAdapter<Fonte> spinAdapter = new ArrayAdapter<>(root.getContext(), android.R.layout.simple_spinner_item, listaFonti);
         spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(spinAdapter);

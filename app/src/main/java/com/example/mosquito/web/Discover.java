@@ -1,27 +1,20 @@
-package com.example.mosquito.model;
-
-import android.os.AsyncTask;
-import android.util.Log;
-
-import androidx.appcompat.app.AlertDialog;
-
+package com.example.mosquito.web;
 import com.example.mosquito.Mosquito;
 import com.example.mosquito.NuovaFonteActivity;
 import com.example.mosquito.R;
+import com.example.mosquito.model.Fonte;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
+import android.os.AsyncTask;
 import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class Discover extends AsyncTask<String, Void, Fonte>  {
     NuovaFonteActivity a;
@@ -33,7 +26,7 @@ public class Discover extends AsyncTask<String, Void, Fonte>  {
         HttpURLConnection connection = null;
         BufferedInputStream input = null;
         String webpage = strings[0];
-        if (!webpage.substring(0,7).equals("http://") && !webpage.substring(0,8).equals("https://"))
+        if (webpage.length()<7 || (!webpage.substring(0,7).equals("http://") && !webpage.substring(0,8).equals("https://")))
             webpage = "https://" + webpage;
         try {
             URL url = new URL(webpage);
@@ -83,7 +76,7 @@ public class Discover extends AsyncTask<String, Void, Fonte>  {
                 if (channel.getNodeType() == Node.ELEMENT_NODE) {
                     Element channelElement = (Element) channel;
                     String nome = channelElement.getElementsByTagName("title").item(0).getTextContent();
-                    return new Fonte(webpage, nome);
+                    return new Fonte(webpage, nome, false);
                 }
             }
         }

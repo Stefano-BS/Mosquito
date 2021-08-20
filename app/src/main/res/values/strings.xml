@@ -8,6 +8,7 @@
 
     <string name="notizie">News</string>
     <string name="fonti">Sources</string>
+    <string name="sorgente">Source</string>
     <string name="impostazioni">Settings</string>
     <string name="elenco_fonti">Sources List</string>
     <string name="aggiungi">Add</string>
@@ -30,4 +31,11 @@
     <string name="condividi">Share</string>
     <string name="esterno">External</string>
     <string name="impo_tipo_browser">Preferred browser type</string>
+    <string name="attiva_notifiche">Enable notifications</string>
+    <string name="disattiva_notifiche">Disable notifications</string>
+    <string name="elimina_fonte">Delete Source</string>
+    <string name="title_activity_impostazioni_fonte">Source Settings</string>
+    <string name="prossimo">Next</string>
+    <string name="precedente">Previous</string>
+    <string name="aggiunta_fonte">Source added: </string>
 </resources>

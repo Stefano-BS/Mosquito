@@ -1,4 +1,6 @@
 package com.example.mosquito;
+import com.example.mosquito.model.DB;
+import com.example.mosquito.model.Notizia;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -7,9 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.TextView;
-
-import com.example.mosquito.model.DB;
-import com.example.mosquito.model.Notizia;
 
 public class ActivityNotizia extends AppCompatActivity {
     Notizia n;
@@ -21,13 +20,18 @@ public class ActivityNotizia extends AppCompatActivity {
         getSupportActionBar().hide();
 
         String nlink = getIntent().getStringExtra("notizia");
-        for (Notizia n : NotizieFragment.lista)
-            if (n.link.equals(nlink)) {
-                this.n = n;
-                DB.getInstance().marcaLetta(n.link);
-                n.letta = true;
-                break;
-            }
+        if (nlink != null) {
+            for (Notizia n : NotizieFragment.lista)
+                if (n.link.equals(nlink)) {
+                    this.n = n;
+                    DB.getInstance().marcaLetta(n.link);
+                    n.letta = true;
+                    break;
+                }
+        } else {
+            n = (Notizia) getIntent().getSerializableExtra("notizia_obj");
+            DB.getInstance().marcaLetta(n.link);
+        }
 
         ((TextView) findViewById(R.id.titolo_notizia_activity)).setText(n.titolo);
         ((TextView) findViewById(R.id.data_notizia_activity)).setText(n.dataString());

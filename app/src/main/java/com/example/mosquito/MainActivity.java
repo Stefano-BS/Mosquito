@@ -1,10 +1,10 @@
 package com.example.mosquito;
+import com.example.mosquito.model.Fonte;
+import com.example.mosquito.model.Fonti;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import com.example.mosquito.model.Fonte;
-import com.example.mosquito.model.Fonti;
 import com.google.android.material.navigation.NavigationView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -25,21 +25,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /*ExtendedFloatingActionButton fab = findViewById(R.id.aggiungiFonti);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_notizie, R.id.nav_fonti, R.id.nav_impostazioni).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        // CODE BASED ON SERVICES, NOT WORKING IN BACKGROUND SINCE ANDROID 8 LIMITATIONS (https://developer.android.com/about/versions/oreo/background#services)
+        /*ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {  // Notifiche Service alredy running
+            new AlertDialog.Builder(this).setMessage(service.getClass().getName()).show();
+            if (NotificheService.class.getName().equals(service.service.getClassName())) return;
+        }
+        stopService(new Intent(this, NotificheService.class));
+        Intent intent =  new Intent(this, NotificheService.class);
+        LinkedList<Fonte> listaNotificabili = new LinkedList<>();
+        for (Fonte f : Fonti.getInstance().getFonti())
+            if (f.notifiche) listaNotificabili.add(f);
+        intent.putExtra("fonti", listaNotificabili);
+        startService(intent);*/
+
+        // CODE BASED ON JOBSERVICES
+        Mosquito.managerJobNotifiche();
     }
 
     @Override
@@ -75,12 +84,3 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 }
-
-//for (Fragment f : getSupportFragmentManager().getFragments())
-/*    id = f.getId();*///new AlertDialog.Builder(this).setMessage("tag " + f.getTag() + " id " + f.getId()).setTitle("").show();
-//FontiFragment fr = getFragmentManager().findFragmentById(R.id.frammentoNotizie);
-//new AlertDialog.Builder(this).setMessage(mAppBarConfiguration.getDrawerLayout().getChildAt(1)).show();
-//FontiFragment fr = (FontiFragment) getSupportFragmentManager().findFragmentById(R.id.frammentoNotizie);
-//String tag = "android:switcher:" + R.id.nav_view + ":" + 1;
-//FontiFragment fr = (FontiFragment) getSupportFragmentManager().getFragments().get(0);
-//new AlertDialog.Builder(this).setMessage(getFragmentManager().findFragmentById(R.id.frag_fonti).getClass().toString()).show();

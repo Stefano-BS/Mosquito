@@ -7,6 +7,7 @@
 
     <string name="notizie">Notizie</string>
     <string name="fonti">Fonti</string>
+    <string name="sorgente">Sorgente</string>
     <string name="impostazioni">Impostazioni</string>
     <string name="elenco_fonti">Elenco Fonti</string>
     <string name="aggiungi">Aggiungi</string>
@@ -29,4 +30,11 @@
     <string name="condividi">Condividi</string>
     <string name="esterno">Esterno</string>
     <string name="impo_tipo_browser">Tipo di Browser preferito</string>
+    <string name="attiva_notifiche">Attiva notifiche</string>
+    <string name="disattiva_notifiche">Disattiva notifiche</string>
+    <string name="elimina_fonte">Elimina Fonte</string>
+    <string name="title_activity_impostazioni_fonte">Impostazioni Fonte</string>
+    <string name="prossimo">Prossimo</string>
+    <string name="precedente">Precedente</string>
+    <string name="aggiunta_fonte">Aggiunta la fonte: </string>
 </resources>

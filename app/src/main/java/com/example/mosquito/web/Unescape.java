@@ -1,4 +1,4 @@
-package com.example.mosquito;
+package com.example.mosquito.web;
 
 import java.io.StringWriter;
 import java.util.HashMap;

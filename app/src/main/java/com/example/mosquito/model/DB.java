@@ -5,16 +5,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
-import androidx.annotation.Nullable;
 
-public class DB extends SQLiteOpenHelper {
+public class DB extends android.database.sqlite.SQLiteOpenHelper {
     static final String DATABASE_NAME = "Mosquito";
     static final int DATABASE_VERSION = 19;
     private static DB db;
 
-    private DB(@Nullable Context context) {
+    private DB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -35,11 +33,11 @@ public class DB extends SQLiteOpenHelper {
         String query = "create table " + TFonti.TABLE_LOCAL_DATA + " (" + TFonti._ID + " integer primary key, "
                 + TFonti.COLUMN_NOME + " varchar not null, " + TFonti.COLUMN_WEB + "  varchar not null, " + TFonti.COLUMN_NOTIFICA + " integer);";
         db.execSQL(query);
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.dpreview.com/feeds/news.xml", "DPReview", false));
+        /*db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.dpreview.com/feeds/news.xml", "DPReview", false));
         db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.hdblog.it/feed/", "HDBlog", false));
         db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.sonyalpharumors.com/feed/", "SonyAlphaRumors", false));
         db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://mspoweruser.com/feed/", "MSPoweruser", false));
-        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.tomshw.it/feed/", "Tom's Hardware", false));
+        db.insert(TFonti.TABLE_LOCAL_DATA, null, convertiF("https://www.tomshw.it/feed/", "Tom's Hardware", false));*/
 
         query = "create table " + TImpo.TABLE_LOCAL_DATA + " (" + TImpo._ID + " integer primary key, "
                 + TImpo.COLUMN_ID + " integer not null, " + TImpo.COLUMN_VAL + "  varchar not null);";

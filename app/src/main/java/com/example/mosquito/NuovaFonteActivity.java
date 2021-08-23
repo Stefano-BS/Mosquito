@@ -5,6 +5,7 @@ import com.example.mosquito.model.Fonte;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -33,7 +34,7 @@ public class NuovaFonteActivity extends androidx.appcompat.app.AppCompatActivity
             imm.hideSoftInputFromWindow(tverrore.getWindowToken(), 0);
             tverrore.setVisibility(View.VISIBLE);
             ValueAnimator anim = new ValueAnimator();
-            anim.setIntValues(getResources().getColor(R.color.black), getResources().getColor(R.color.rossoelimina));
+            anim.setIntValues(((ColorDrawable)getResources().getDrawable(R.drawable.sfondo)).getColor(), ((ColorDrawable)getResources().getDrawable(R.drawable.rossoelimina)).getColor());
             anim.setEvaluator(new ArgbEvaluator());
             anim.addUpdateListener((valueAnimator) -> tverrore.setTextColor((Integer)valueAnimator.getAnimatedValue()));
             anim.setDuration(1000);

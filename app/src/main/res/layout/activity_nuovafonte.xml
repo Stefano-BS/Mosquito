@@ -37,7 +37,7 @@
                 android:text="@string/errore1_fonte_discover"
                 android:paddingHorizontal="10dp"
                 android:paddingTop="20dp"
-                android:textColor="@color/rossoelimina"
+                android:textColor="@drawable/rossoelimina"
                 android:visibility="gone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 

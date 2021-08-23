@@ -1,8 +1,7 @@
 package com.example.mosquito.web;
 import com.example.mosquito.*;
 import com.example.mosquito.model.*;
-import com.example.mosquito.notifiche.JobNotifiche;
-import com.example.mosquito.notifiche.NotificheService;
+import com.example.mosquito.notifiche.*;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -28,7 +27,7 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
     NotizieFragment fr;
     boolean modNotifiche = false;
     NotificheService ns;
-    JobService jn;
+    JobNotifiche jn;
 
     public Parser(NotizieFragment fr) {this.fr = fr;}
     public Parser(NotificheService ns) {this.ns = ns; modNotifiche = true;}
@@ -48,11 +47,8 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(input);
             doc.getDocumentElement().normalize();
-            if (!doc.getDocumentElement().getNodeName().equals("rss")) {
-                notizie.add(new Notizia("RSSCRASH", "run", new Date().toString(), new Fonte("","Mosquito", false)));
-                return notizie;
-            }
-
+            if (!doc.getDocumentElement().getNodeName().equals("rss")) return notizie;
+                //notizie.add(new Notizia("RSSCRASH", "run", new Date().toString(), new Fonte("","Mosquito", false)));
             NodeList items = doc.getElementsByTagName("item");
             for (int i = 0; i < items.getLength(); i++){
                 Node it = items.item(i);
@@ -114,7 +110,7 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
                 }
             }
         }
-        catch (Exception e) {e.printStackTrace();notizie.add(new Notizia("CRASH " + f.weblink, "run", new Date().toString(), new Fonte("","Mosquito", false), null, null));}
+        catch (Exception e) {e.printStackTrace();} //notizie.add(new Notizia("CRASH " + f.weblink, "run", new Date().toString(), new Fonte("","Mosquito", false), null, null));}
         finally {
             if (connection != null) connection.disconnect();
             if (input != null) try{input.close();} catch (Exception e) {}
@@ -124,7 +120,7 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
 
     @Override
     protected LinkedList<Notizia> doInBackground(LinkedList<Fonte> ... fonti) {
-        LinkedList<Notizia> notizie = new LinkedList<Notizia>();
+        LinkedList<Notizia> notizie = new LinkedList<>();
         if (modNotifiche) {
             for (Fonte f : fonti[0])
                 notizie.addAll(run(f));
@@ -144,11 +140,11 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
         super.onProgressUpdate(temp);
         if (modNotifiche) {
             NotizieFragment.lista = temp[0];
-            if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
+            /*if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
                 ImgDownloader imdl = new ImgDownloader(temp[0], fr.adapter);
                 fr.imdl.add(imdl);
                 imdl.execute();
-            }
+            }*/
             fr.adapter.notifyDataSetChanged();
         }
     }
@@ -163,13 +159,11 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
         else {
             NotizieFragment.lista = notizie;
             if (DB.getInstance().ottieniImpostazione(1).equals("ampio")) {
-            /*if (fr.imdl != null && fr.imdl.getStatus() == AsyncTask.Status.RUNNING)
-                fr.imdl.cancel(true);*/
                 ImgDownloader imdl = new ImgDownloader(notizie, fr.adapter);
                 fr.imdl.add(imdl);
                 imdl.execute();
             }
-            //else fr.adapter.notifyDataSetChanged();
+            fr.adapter.notifyDataSetChanged();
             fr.finitoCaricamento = true;
             fr.swipe.setRefreshing(false);
         }
@@ -186,5 +180,6 @@ public class Parser extends AsyncTask<LinkedList<Fonte>, LinkedList<Notizia>, Li
                     .setWhen(System.currentTimeMillis()).setChannelId(n.f.weblink).setAutoCancel(true).build();
             nm.notify(n.f.weblink.hashCode(), notifica);
         }
+        jn.fineLavoro();
     }
 }

@@ -13,13 +13,12 @@
         android:layout_gravity="center"
         android:textStyle="italic"
         style="@style/txt"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:paddingHorizontal="20dp"
         android:text="@string/aggiungi_sorgenti_per_iniziare"
         android:visibility="gone" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_gravity="top"
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
@@ -48,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/seleziona_fonti"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:paddingHorizontal="15dp"
                 style="@style/txt"/>
             <Spinner

@@ -6,19 +6,29 @@ import com.example.mosquito.web.Parser;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public class JobNotifiche extends JobService {
+    JobParameters params;
+
     @Override
     public boolean onStartJob(JobParameters params) {
-        //Toast.makeText(getApplicationContext(), "Job started ", Toast.LENGTH_LONG).show();
-        LinkedList<Fonte> listaNotificabili = new LinkedList<>();
-        for (Fonte f : Fonti.getInstance().getFonti())
-            if (f.notifiche) listaNotificabili.add(f);
-        if (listaNotificabili.size()>0) new Parser(this).execute(listaNotificabili);
-        else stopSelf();
-        return true;
+        this.params = params;
+        LinkedList<Fonte> listaNotificabili = Fonti.getInstance().getFonti().stream().filter(f -> f.notifiche).collect(Collectors.toCollection(LinkedList::new));
+        if (listaNotificabili.size()>0) {
+            new Parser(this).execute(listaNotificabili);
+            return true;
+        }
+        else {
+            stopSelf();
+            return false;
+        }
     }
 
     @Override
     public boolean onStopJob(JobParameters params) {return false;}
+
+    public void fineLavoro() {
+        jobFinished(params,false);
+    }
 }

@@ -61,11 +61,11 @@ public class ActivityNotizia extends AppCompatActivity {
         String stile = "";
         if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
             stile = "<style>* {background-color: white; color: black;} h1 {font-size: 3em;} h2 {font-size: 2.8em;} html {font-size: 2.5em;}</style> ";
-            findViewById(R.id.scrollview_notizia_activity).setBackgroundColor(getColor(R.color.white));
+            findViewById(R.id.scrollview_notizia_activity).setBackground(getDrawable(R.drawable.white));
         }
         else if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
             stile = "<style>* {background-color: black; color: white;} h1 {font-size: 3em;} h2 {font-size: 2.8em;} html {font-size: 2.5em;}</style> ";
-            findViewById(R.id.scrollview_notizia_activity).setBackgroundColor(getColor(R.color.black));
+            findViewById(R.id.scrollview_notizia_activity).setBackground(getDrawable(R.drawable.black));
         }
         web.getSettings().setUseWideViewPort(true);
         web.getSettings().setLoadWithOverviewMode(true);

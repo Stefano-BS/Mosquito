@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -93,8 +94,8 @@ public class NotizieFragment extends Fragment {
                 h.tvfonte.setText(n.f.nome);
                 h.tvdata.setText(n.dataString());
 
-                int coloreTesto = n.letta? getResources().getColor(R.color.testosubt) : getResources().getColor(R.color.testo);
-                int coloreTestosub = n.letta? getResources().getColor(R.color.testosubt2) : getResources().getColor(R.color.testosubt);
+                int coloreTesto = n.letta? ((ColorDrawable)getResources().getDrawable(R.drawable.testosubt)).getColor() : ((ColorDrawable)getResources().getDrawable(R.drawable.testo)).getColor();
+                int coloreTestosub = n.letta? ((ColorDrawable)getResources().getDrawable(R.drawable.testosubt2)).getColor() : ((ColorDrawable)getResources().getDrawable(R.drawable.testosubt)).getColor();
                 h.tvtitolo.setTextColor(coloreTesto);
                 h.tvdata.setTextColor(coloreTestosub);
                 h.tvfonte.setTextColor(coloreTestosub);

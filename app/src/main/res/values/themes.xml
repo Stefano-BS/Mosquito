@@ -2,13 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.Mosquito" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/verdechiaro</item>
-        <item name="colorPrimaryVariant">@color/verde</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@drawable/verdechiaro</item>
+        <item name="colorPrimaryVariant">@drawable/verde</item>
+        <item name="colorOnPrimary">@drawable/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@drawable/teal_200</item>
+        <item name="colorSecondaryVariant">@drawable/teal_700</item>
+        <item name="colorOnSecondary">@drawable/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
@@ -17,9 +17,8 @@
     <style xmlns:android="http://schemas.android.com/apk/res/android" name="bottoni">
         <item name="android:textSize">16sp</item>
         <item name="android:elevation">100dp</item>
-        <item name="android:backgroundTint">@color/btn</item>
-        <item name="android:background">@color/btn</item>
-        <item name="android:textColor">@color/btntext</item>
+        <item name="android:background">@drawable/btn</item>
+        <item name="android:textColor">@drawable/btntext</item>
         <!--item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item-->
         <item name="android:insetTop">0dp</item>
@@ -27,18 +26,18 @@
     </style>
 
     <style name="btnelimina">
-        <item name="android:backgroundTint">@color/rossochiaroelimina</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:backgroundTint">@drawable/rossochiaroelimina</item>
+        <item name="android:textColor">@drawable/black</item>
     </style>
 
     <style name="txt">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@drawable/black</item>
+        <item name="android:backgroundTint">@drawable/white</item>
     </style>
 
     <style name="txtsubtle">
-        <item name="android:textColor">@color/dgray</item>
-        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@drawable/dgray</item>
+        <item name="android:backgroundTint">@drawable/white</item>
     </style>
 
     <style name="Theme.Mosquito.NoActionBar">

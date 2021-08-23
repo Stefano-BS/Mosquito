@@ -15,7 +15,8 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/mosquito"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Mosquito">
+        android:theme="@style/Theme.Mosquito"
+        android:allowBackup="true">
         <service
             android:name=".notifiche.NotificheService"
             android:enabled="true"

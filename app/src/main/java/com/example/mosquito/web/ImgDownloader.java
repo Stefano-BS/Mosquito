@@ -1,13 +1,13 @@
 package com.example.mosquito.web;
+import com.example.mosquito.Mosquito;
+import com.example.mosquito.NotizieFragment;
+import com.example.mosquito.R;
+import com.example.mosquito.model.Notizia;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
-import com.example.mosquito.Mosquito;
-import com.example.mosquito.NotizieFragment;
-import com.example.mosquito.R;
-import com.example.mosquito.model.Notizia;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
